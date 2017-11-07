@@ -1,2 +1,2 @@
 # azure-dns-client
-A simple command-line interface for Azure DNS
+A simple command-line tool for manipulating Azure DNS record sets
