@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog] and this project adheres to
 ## [Unreleased]
 ### Added
 - Changelog.
+- Actual documentation in the README.
 
 ### Changed
 - Reformatted help text to use spaces instead of tabs.
