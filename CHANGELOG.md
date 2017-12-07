@@ -8,6 +8,9 @@ The format is based on [Keep a Changelog] and this project adheres to
 ### Added
 - Changelog.
 
+### Changed
+- Reformatted help text to use spaces instead of tabs.
+
 ## 0.1.0 - 2017-11-15
 ### Added
 - `get`, `set`, and `clear` commands

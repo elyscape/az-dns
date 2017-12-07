@@ -27,15 +27,13 @@ contains the zone name (e.g. example.com.example.com), you should either
 provide the FQDN or use the --relative flag.
 
 Examples:
-	azure-dns-client set A example.com 1.1.1.1 -z example.com
-		Creates an A record at the apex of example.com pointing to
-		1.1.1.1
-	azure-dns-client set A sub 1.1.1.1 2.2.2.2 -z example.com
-		Creates an A record for sub.example.com pointing to 1.1.1.1 and
-		2.2.2.2
-	azure-dns-client set AAAA local.example.com ::1 -t 600 -r -z example.com
-		Creates an AAAA record for local.example.com.example.com with
-		TTL of 600 pointing at ::1`,
+    azure-dns-client set A example.com 1.1.1.1 -z example.com
+        Creates an A record at the apex of example.com pointing to 1.1.1.1
+    azure-dns-client set A sub 1.1.1.1 2.2.2.2 -z example.com
+        Creates an A record for sub.example.com pointing to 1.1.1.1 and 2.2.2.2
+    azure-dns-client set AAAA local.example.com ::1 -t 600 -r -z example.com
+        Creates an AAAA record for local.example.com.example.com with TTL of
+        600 pointing at ::1`,
 	Args: cobra.MinimumNArgs(3),
 	Run: func(cmd *cobra.Command, args []string) {
 		recordType := dns.RecordType(strings.ToUpper(args[0]))

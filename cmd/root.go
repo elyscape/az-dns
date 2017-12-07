@@ -20,10 +20,10 @@ var RootCmd = &cobra.Command{
 This client provides an easy way to view and manipulate record sets in Azure
 DNS. It authenticates as an Azure Active Directory service principal, using
 credentials provided via:
-	a. command-line flags
-	b. environment variables
-	c. a config file, or
-	d. an Azure CLI auth file, with path specified in $AZURE_AUTH_LOCATION`,
+    a. command-line flags
+    b. environment variables
+    c. a config file, or
+    d. an Azure CLI auth file, with path specified in $AZURE_AUTH_LOCATION`,
 }
 
 func Execute() {
