@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/elyscape/azure-dns-client/cmd"
+	"github.com/elyscape/az-dns/cmd"
 )
 
 func main() {

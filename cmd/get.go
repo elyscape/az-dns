@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/arm/dns"
-	"github.com/elyscape/azure-dns-client/helpers"
+	"github.com/elyscape/az-dns/helpers"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -26,11 +26,11 @@ contains the zone name (e.g. example.com.example.com), you should either
 provide the FQDN or use the --relative flag.
 
 Examples:
-    azure-dns-client get A example.com -z example.com
+    az-dns get A example.com -z example.com
         Prints A records for example.com
-    azure-dns-client get AAAA sub -z example.com
+    az-dns get AAAA sub -z example.com
         Prints AAAA records for sub.example.com
-    azure-dns-client get CNAME sub.example.com -r -z example.com
+    az-dns get CNAME sub.example.com -r -z example.com
         Prints the CNAME record for sub.example.com.example.com`,
 	Args: cobra.ExactArgs(2),
 	Run: func(cmd *cobra.Command, args []string) {

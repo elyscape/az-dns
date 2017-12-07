@@ -1,4 +1,4 @@
-# azure-dns-client
+# az-dns
 A simple command-line tool for manipulating [Azure DNS] record sets
 
 This is a simple tool for managing Azure DNS resource record sets, written with
@@ -13,7 +13,7 @@ Download the binary appropriate to your platform from [the GitHub releases
 page][releases] and put it somewhere in your PATH. Alternatively, if you have Go
 installed on your system, you can use that to install it:
 ```
-go get -u github.com/elyscape/azure-dns-client
+go get -u github.com/elyscape/az-dns
 ```
 
 ## Configuration
@@ -27,7 +27,7 @@ and other values can be provided.
 
 You can specify default values for flags by using a config file. On startup, the
 tool will check your home directory for the existence of a file named
-`.azure-dns-client` with one of the following extensions and load the first one
+`.az-dns` with one of the following extensions and load the first one
 that it finds:
 
 - `.json`
@@ -122,5 +122,5 @@ provide the path to the file in the environment variable `AZURE_AUTH_LOCATION`.
 
 [Azure DNS]: https://azure.microsoft.com/en-us/services/dns/
 [service principal]: https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-application-objects
-[releases]: https://github.com/elyscape/azure-dns-client/releases/latest
+[releases]: https://github.com/elyscape/az-dns/releases/latest
 [Azure CLI]: https://docs.microsoft.com/en-us/cli/azure/overview

@@ -3,7 +3,7 @@
 *.dll
 *.so
 *.dylib
-azure-dns-client
+az-dns
 
 # Test binary, build with `go test -c`
 *.test

@@ -13,7 +13,7 @@ import (
 var cfgFile string
 
 var RootCmd = &cobra.Command{
-	Use:   "azure-dns-client",
+	Use:   "az-dns",
 	Short: "Azure DNS record set manipulator",
 	Long: `A simple command-line tool for manipulating Azure DNS record sets
 
@@ -36,7 +36,7 @@ func Execute() {
 func init() {
 	cobra.OnInitialize(initConfig)
 
-	RootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "Config file (default is $HOME/.azure-dns-client.yaml)")
+	RootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "Config file (default is $HOME/.az-dns.yaml)")
 
 	// credentials
 	RootCmd.PersistentFlags().String("client-id", "", "Azure client ID")
@@ -66,9 +66,9 @@ func initConfig() {
 			os.Exit(1)
 		}
 
-		// Search config in home directory with name ".azure-dns-client" (without extension).
+		// Search config in home directory with name ".az-dns" (without extension).
 		viper.AddConfigPath(home)
-		viper.SetConfigName(".azure-dns-client")
+		viper.SetConfigName(".az-dns")
 	}
 
 	viper.SetEnvPrefix("AZURE")
