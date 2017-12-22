@@ -98,7 +98,7 @@ Examples:
 }
 
 func init() {
-	RootCmd.AddCommand(setCmd)
+	rootCmd.AddCommand(setCmd)
 
 	setCmd.PersistentFlags().BoolP("relative", "r", false, "HOSTNAME is a zone-relative label")
 	setCmd.PersistentFlags().Int64P("ttl", "t", 300, "Record set TTL")

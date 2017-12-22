@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog] and this project adheres to
 [Semantic Versioning].
 
 ## [Unreleased]
+### Changed
+- **BREAKING**: The root command is no longer exported.
 
 ## [0.2.0] - 2017-12-06
 ### Added
@@ -17,7 +19,7 @@ The format is based on [Keep a Changelog] and this project adheres to
 
 ## 0.1.0 - 2017-11-15
 ### Added
-- `get`, `set`, and `clear` commands
+- `get`, `set`, and `clear` commands.
 
 [Keep a Changelog]: http://keepachangelog.com/en/1.0.0/
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html

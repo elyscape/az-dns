@@ -12,7 +12,7 @@ import (
 
 var cfgFile string
 
-var RootCmd = &cobra.Command{
+var rootCmd = &cobra.Command{
 	Use:   "az-dns",
 	Short: "Azure DNS record set manipulator",
 	Long: `A simple command-line tool for manipulating Azure DNS record sets
@@ -27,7 +27,7 @@ credentials provided via:
 }
 
 func Execute() {
-	if err := RootCmd.Execute(); err != nil {
+	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
@@ -36,21 +36,21 @@ func Execute() {
 func init() {
 	cobra.OnInitialize(initConfig)
 
-	RootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "Config file (default is $HOME/.az-dns.yaml)")
+	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "Config file (default is $HOME/.az-dns.yaml)")
 
 	// credentials
-	RootCmd.PersistentFlags().String("client-id", "", "Azure client ID")
-	RootCmd.PersistentFlags().String("client-secret", "", "Azure client secret")
-	RootCmd.PersistentFlags().String("tenant-id", "", "Azure tenant ID")
-	RootCmd.PersistentFlags().String("subscription-id", "", "Azure subscription ID")
+	rootCmd.PersistentFlags().String("client-id", "", "Azure client ID")
+	rootCmd.PersistentFlags().String("client-secret", "", "Azure client secret")
+	rootCmd.PersistentFlags().String("tenant-id", "", "Azure tenant ID")
+	rootCmd.PersistentFlags().String("subscription-id", "", "Azure subscription ID")
 
 	// resource info
-	RootCmd.PersistentFlags().StringP("resource-group", "g", "", "Name of the resource group")
-	RootCmd.PersistentFlags().StringP("zone", "z", "", "Name of the DNS zone")
+	rootCmd.PersistentFlags().StringP("resource-group", "g", "", "Name of the resource group")
+	rootCmd.PersistentFlags().StringP("zone", "z", "", "Name of the DNS zone")
 
 	// other
-	RootCmd.PersistentFlags().BoolP("verbose", "v", false, "Enable verbose output")
-	viper.BindPFlags(RootCmd.PersistentFlags())
+	rootCmd.PersistentFlags().BoolP("verbose", "v", false, "Enable verbose output")
+	viper.BindPFlags(rootCmd.PersistentFlags())
 }
 
 // initConfig reads in config file and ENV variables if set.

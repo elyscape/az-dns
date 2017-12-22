@@ -68,7 +68,7 @@ Examples:
 }
 
 func init() {
-	RootCmd.AddCommand(clearCmd)
+	rootCmd.AddCommand(clearCmd)
 
 	clearCmd.PersistentFlags().BoolP("relative", "r", false, "HOSTNAME is a zone-relative label")
 	viper.BindPFlags(clearCmd.PersistentFlags())
