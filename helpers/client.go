@@ -37,7 +37,7 @@ func GetAuthorizer(baseURI string) (authorizer *autorest.BearerAuthorizer, err e
 
 	for _, field := range credFields {
 		if !viper.IsSet(field) || viper.GetString(field) == "" {
-			err = fmt.Errorf("Required credential option %v not provided.", field)
+			err = fmt.Errorf("required credential option %v not provided", field)
 			return
 		}
 	}

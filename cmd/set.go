@@ -110,7 +110,7 @@ func generateARecordParams(ttl int64, values []string) (rrparams *dns.RecordSet,
 
 	for _, addr := range values {
 		if ip := net.ParseIP(addr); ip == nil || ip.To4() == nil {
-			err = fmt.Errorf(`Invalid IP address "%v".`, addr)
+			err = fmt.Errorf(`invalid IP address "%v"`, addr)
 			return
 		}
 		records = append(records, dns.ARecord{Ipv4Address: &addr})
@@ -131,7 +131,7 @@ func generateAaaaRecordParams(ttl int64, values []string) (rrparams *dns.RecordS
 
 	for _, addr := range values {
 		if ip := net.ParseIP(addr); ip == nil || ip.To16() == nil {
-			err = fmt.Errorf(`Invalid IP address "%v".`, addr)
+			err = fmt.Errorf(`invalid IP address "%v"`, addr)
 			return
 		}
 		records = append(records, dns.AaaaRecord{Ipv6Address: &addr})
