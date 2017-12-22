@@ -11,6 +11,10 @@ import (
 	"github.com/spf13/viper"
 )
 
+// NewRecordSetClient creates a new RecordSetsClient using the specified
+// baseURI and attaches a BearerAuthorizer based on credentials provided either
+// via an Azure SDK auth file, if present, or through any mechanism supported
+// by Viper. If credentials have not been provided, an error will be returned.
 func NewRecordSetClient(baseURI string) (client dns.RecordSetsClient, err error) {
 	var authorizer *autorest.BearerAuthorizer
 	subscriptionID := viper.GetString("subscription-id")
@@ -32,6 +36,8 @@ func NewRecordSetClient(baseURI string) (client dns.RecordSetsClient, err error)
 	return
 }
 
+// GetAuthorizer creates a BearerAuthorizer based on credentials retrieved from
+// Viper. If credentials have not been provided, an error will be returned.
 func GetAuthorizer(baseURI string) (authorizer *autorest.BearerAuthorizer, err error) {
 	credFields := []string{"client-id", "client-secret", "subscription-id", "tenant-id"}
 

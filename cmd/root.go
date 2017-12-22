@@ -10,8 +10,10 @@ import (
 	"github.com/spf13/viper"
 )
 
+// cfgFile is the path to an optional configuration file.
 var cfgFile string
 
+// rootCmd represents the base command when called without any subcommands.
 var rootCmd = &cobra.Command{
 	Use:   "az-dns",
 	Short: "Azure DNS record set manipulator",
@@ -26,6 +28,9 @@ credentials provided via:
     d. an Azure CLI auth file, with path specified in $AZURE_AUTH_LOCATION`,
 }
 
+// Execute adds all child commands to the root command and sets flags
+// appropriately. This is called by main.main(). It only needs to happen once
+// to the rootCmd.
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)
