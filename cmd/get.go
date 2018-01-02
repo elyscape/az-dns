@@ -1,12 +1,13 @@
 package cmd
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"os"
 	"strings"
 
-	"github.com/Azure/azure-sdk-for-go/arm/dns"
+	"github.com/Azure/azure-sdk-for-go/profiles/latest/dns/mgmt/dns"
 	"github.com/elyscape/az-dns/helpers"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -58,7 +59,10 @@ Examples:
 		relative := viper.GetBool("relative")
 		recordName := helpers.GenerateRecordName(hostname, zone, relative)
 
-		rrset, err := client.Get(resourceGroup, zone, recordName, recordType)
+		ctx, cancel := context.WithCancel(context.Background())
+		defer cancel()
+
+		rrset, err := client.Get(ctx, resourceGroup, zone, recordName, recordType)
 
 		if err != nil {
 			fmt.Println(err)

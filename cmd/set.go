@@ -1,12 +1,13 @@
 package cmd
 
 import (
+	"context"
 	"fmt"
 	"net"
 	"os"
 	"strings"
 
-	"github.com/Azure/azure-sdk-for-go/arm/dns"
+	"github.com/Azure/azure-sdk-for-go/profiles/latest/dns/mgmt/dns"
 	"github.com/elyscape/az-dns/helpers"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -87,7 +88,10 @@ Examples:
 			os.Exit(1)
 		}
 
-		_, err = client.CreateOrUpdate(resourceGroup, zone, recordName, recordType, *rrparams, "", "")
+		ctx, cancel := context.WithCancel(context.Background())
+		defer cancel()
+
+		_, err = client.CreateOrUpdate(ctx, resourceGroup, zone, recordName, recordType, *rrparams, "", "")
 		if err != nil {
 			fmt.Println(err)
 			os.Exit(1)

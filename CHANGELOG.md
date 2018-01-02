@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog] and this project adheres to
 ## [Unreleased]
 ### Changed
 - **BREAKING**: The root command is no longer exported.
+- Updated Azure SDK.
 
 ## [0.2.0] - 2017-12-06
 ### Added

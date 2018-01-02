@@ -3,7 +3,7 @@
 
 [[projects]]
   name = "github.com/Azure/azure-sdk-for-go"
-  packages = ["arm/dns"]
+  packages = ["profiles/latest/dns/mgmt/dns","services/dns/mgmt/2017-09-01/dns"]
   revision = "934e2462aeb6e0c14186dcfeedd73a026d1b8eeb"
   version = "v12.1.0-beta"
 
@@ -124,6 +124,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "ca19fb0658a148f97770eb928a40f889b770c220330fcfbeb2390dd9d4a09268"
+  inputs-digest = "a8df0f424c5641703083069ccd3f6f317d1946e65438cb96845bc7d4444b5cc8"
   solver-name = "gps-cdcl"
   solver-version = 1
