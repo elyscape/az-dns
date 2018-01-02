@@ -13,8 +13,8 @@
 
 [[constraint]]
   name = "github.com/Azure/azure-sdk-for-go"
-  version = "11.1.1-beta"
+  version = "12.1.0-beta"
 
 [[constraint]]
   name = "github.com/Azure/go-autorest"
-  version = "9.3.1"
+  version = "9.6.0"
