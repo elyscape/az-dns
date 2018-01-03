@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog] and this project adheres to
 [Semantic Versioning].
 
 ## [Unreleased]
+### Added
+- Support for CAA records.
+
 ### Changed
 - **BREAKING**: The root command is no longer exported.
 - **BREAKING**: Status and error message are no longer in sentence case and no

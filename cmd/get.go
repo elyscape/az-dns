@@ -20,10 +20,10 @@ var getCmd = &cobra.Command{
 	Long: `Retrieve a record set from Azure DNS
 
 This will print the contents of a particular record set on Azure DNS. The
-currently-supported record types are A, AAAA, CNAME, and TXT. HOSTNAME may be a
-fully-qualified domain name contained within the zone, a record name relative
-to the zone, or either the empty string or @ for the apex. If a record name
-contains the zone name (e.g. example.com.example.com), you should either
+currently-supported record types are A, AAAA, CAA, CNAME, and TXT. HOSTNAME may
+be a fully-qualified domain name contained within the zone, a record name
+relative to the zone, or either the empty string or @ for the apex. If a record
+name contains the zone name (e.g. example.com.example.com), you should either
 provide the FQDN or use the --relative flag.
 
 Examples:
@@ -80,6 +80,12 @@ Examples:
 			if rrset.AaaaRecords != nil {
 				for _, record := range *rrset.AaaaRecords {
 					fmt.Println(*record.Ipv6Address)
+				}
+			}
+		case dns.CAA:
+			if rrset.CaaRecords != nil {
+				for _, record := range *rrset.CaaRecords {
+					fmt.Printf("%v %v %q\n", *record.Flags, *record.Tag, *record.Value)
 				}
 			}
 		case dns.CNAME:
