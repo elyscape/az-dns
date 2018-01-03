@@ -44,13 +44,13 @@ Examples:
 
 		resourceGroup := viper.GetString("resource-group")
 		if resourceGroup == "" {
-			fmt.Println("A resource group name is required.")
+			fmt.Println("a resource group name is required")
 			os.Exit(1)
 		}
 
 		zone := viper.GetString("zone")
 		if zone == "" {
-			fmt.Println("A DNS zone name is required.")
+			fmt.Println("a DNS zone name is required")
 			os.Exit(1)
 		}
 
@@ -67,7 +67,7 @@ Examples:
 			os.Exit(1)
 		}
 
-		fmt.Println("Success.")
+		fmt.Println("success")
 	},
 }
 

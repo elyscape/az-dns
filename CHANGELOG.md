@@ -7,6 +7,8 @@ The format is based on [Keep a Changelog] and this project adheres to
 ## [Unreleased]
 ### Changed
 - **BREAKING**: The root command is no longer exported.
+- **BREAKING**: Status and error message are no longer in sentence case and no
+  longer have trailing periods.
 - Updated Azure SDK.
 
 ## [0.2.0] - 2017-12-06
