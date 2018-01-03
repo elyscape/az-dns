@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog] and this project adheres to
 [Semantic Versioning].
 
 ## [Unreleased]
+
+## [0.3.0] - 2018-01-02
 ### Added
 - Support for CAA records.
 
@@ -30,5 +32,6 @@ The format is based on [Keep a Changelog] and this project adheres to
 [Keep a Changelog]: http://keepachangelog.com/en/1.0.0/
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
 
-[Unreleased]: https://github.com/elyscape/az-dns/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/elyscape/az-dns/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/elyscape/az-dns/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/elyscape/az-dns/compare/v0.1.0...v0.2.0
