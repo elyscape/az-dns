@@ -8,6 +8,10 @@ The format is based on [Keep a Changelog] and this project adheres to
 ### Added
 - Tests.
 
+### Fixed
+- Non-relative record names with a trailing dot are now correctly converted to
+  zone-relative record names.
+
 ## [0.3.0] - 2018-01-02
 ### Added
 - Support for CAA records.
