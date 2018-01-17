@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"net"
-	"os"
 	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/dns/mgmt/dns"
@@ -44,27 +43,26 @@ Examples:
             0 issue "letsencrypt.org"
             0 issuewild ";"`,
 	Args: cobra.MinimumNArgs(3),
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		recordType := dns.RecordType(strings.ToUpper(args[0]))
 		hostname := args[1]
 		records := args[2:]
 
 		client, err := helpers.NewRecordSetClient(dns.DefaultBaseURI)
 		if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
+			return
 		}
 
 		resourceGroup := viper.GetString("resource-group")
 		if resourceGroup == "" {
-			fmt.Println("a resource group name is required")
-			os.Exit(1)
+			err = fmt.Errorf("a resource group name is required")
+			return
 		}
 
 		zone := viper.GetString("zone")
 		if zone == "" {
-			fmt.Println("a DNS zone name is required")
-			os.Exit(1)
+			err = fmt.Errorf("a DNS zone name is required")
+			return
 		}
 
 		relative := viper.GetBool("relative")
@@ -76,30 +74,26 @@ Examples:
 		case dns.A:
 			rrparams, err = generateARecordParams(ttl, records)
 			if err != nil {
-				fmt.Println(err)
-				os.Exit(1)
+				return
 			}
 		case dns.AAAA:
 			rrparams, err = generateAaaaRecordParams(ttl, records)
 			if err != nil {
-				fmt.Println(err)
-				os.Exit(1)
+				return
 			}
 		case dns.CAA:
 			rrparams, err = generateCaaRecordParams(ttl, records)
 			if err != nil {
-				fmt.Println(err)
-				os.Exit(1)
+				return
 			}
 		case dns.TXT:
 			rrparams, err = generateTxtRecordParams(ttl, records)
 			if err != nil {
-				fmt.Println(err)
-				os.Exit(1)
+				return
 			}
 		default:
-			fmt.Printf("unsupported record type %v\n", recordType)
-			os.Exit(1)
+			err = fmt.Errorf("unsupported record type %v", recordType)
+			return
 		}
 
 		ctx, cancel := context.WithCancel(context.Background())
@@ -107,11 +101,12 @@ Examples:
 
 		_, err = client.CreateOrUpdate(ctx, resourceGroup, zone, recordName, recordType, *rrparams, "", "")
 		if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
+			return
 		}
 
 		fmt.Println("success")
+
+		return
 	},
 }
 

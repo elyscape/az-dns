@@ -8,6 +8,10 @@ The format is based on [Keep a Changelog] and this project adheres to
 ### Added
 - Tests.
 
+### Changed
+- **BREAKING**: Due to changes in error handling, error messages are now
+  prefixed with `Error: `.
+
 ### Fixed
 - Non-relative record names with a trailing dot are now correctly converted to
   zone-relative record names.

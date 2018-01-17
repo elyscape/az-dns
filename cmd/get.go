@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"os"
 	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/dns/mgmt/dns"
@@ -34,27 +33,28 @@ Examples:
     az-dns get CNAME sub.example.com -r -z example.com
         Prints the CNAME record for sub.example.com.example.com`,
 	Args: cobra.ExactArgs(2),
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		recordType := dns.RecordType(strings.ToUpper(args[0]))
 		hostname := args[1]
 
 		client, err := helpers.NewRecordSetClient(dns.DefaultBaseURI)
 		if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
+			return
 		}
 
 		resourceGroup := viper.GetString("resource-group")
 		if resourceGroup == "" {
-			fmt.Println("a resource group name is required")
-			os.Exit(1)
+			err = fmt.Errorf("a resource group name is required")
+			return
 		}
 
 		zone := viper.GetString("zone")
 		if zone == "" {
-			fmt.Println("a DNS zone name is required")
-			os.Exit(1)
+			err = fmt.Errorf("a DNS zone name is required")
+			return
 		}
+
+		cmd.SilenceUsage = true
 
 		relative := viper.GetBool("relative")
 		recordName := helpers.GenerateRecordName(hostname, zone, relative)
@@ -65,8 +65,7 @@ Examples:
 		rrset, err := client.Get(ctx, resourceGroup, zone, recordName, recordType)
 
 		if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
+			return
 		}
 
 		switch recordType {
@@ -106,6 +105,8 @@ Examples:
 				fmt.Printf("%s\n", out)
 			}
 		}
+
+		return
 	},
 }
 
