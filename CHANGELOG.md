@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog] and this project adheres to
 [Semantic Versioning].
 
 ## [Unreleased]
+### Changed
+- Switched to MIT license.
 
 ## [0.4.0] - 2018-01-29
 ### Added
