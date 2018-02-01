@@ -1,0 +1,27 @@
+project_name: az-dns
+builds:
+- goos:
+  - darwin
+  - linux
+  - windows
+  goarch:
+  - '386'
+  - amd64
+  - arm
+  - arm64
+  ignore:
+  - goos: darwin
+    goarch: arm
+  - goos: darwin
+    goarch: arm64
+  main: .
+archive:
+  name_template: '{{ .ProjectName }}-{{ .Version }}-{{ .Os }}-{{ .Arch }}{{ if
+    .Arm }}v{{ .Arm }}{{ end }}'
+release:
+  github:
+    owner: elyscape
+    name: az-dns
+  name_template: '{{.Tag}}'
+checksum:
+  name_template: '{{ .ProjectName }}-{{ .Version }}-checksums.txt'
