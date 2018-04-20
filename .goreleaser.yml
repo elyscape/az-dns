@@ -9,6 +9,8 @@ builds:
   - amd64
   - arm
   - arm64
+  - mips
+  - mips64
   ignore:
   - goos: darwin
     goarch: arm
