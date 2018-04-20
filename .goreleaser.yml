@@ -17,10 +17,16 @@ builds:
   - goos: darwin
     goarch: arm64
   main: .
+  asmflags: >-
+    all=-trimpath={{.Env.GOPATH}}
+  gcflags: >-
+    all=-trimpath={{.Env.GOPATH}}
   ldflags: >-
-    -s -w -X github.com/elyscape/az-dns/cmd.version={{.Version}}
+    all=-s -w -X github.com/elyscape/az-dns/cmd.version={{.Version}}
     -X github.com/elyscape/az-dns/cmd.commit={{.Commit}}
     -X github.com/elyscape/az-dns/cmd.date={{.Date}}
+  env:
+    - GOROOT_FINAL=/usr/local/go
 archive:
   name_template: '{{ .ProjectName }}-{{ .Version }}-{{ .Os }}-{{ .Arch }}{{ if
     .Arm }}v{{ .Arm }}{{ end }}'
