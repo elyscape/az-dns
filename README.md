@@ -1,6 +1,8 @@
 # az-dns
 A simple command-line tool for manipulating [Azure DNS] record sets
 
+[![Build Status][travis-badge]][travis]
+
 This is a simple tool for managing Azure DNS resource record sets, written with
 a primary focus on easy scriptability for use with things like Let's Encrypt DNS
 challenge hooks. It authenticates to the service using an [Azure Active
@@ -120,6 +122,8 @@ $ az ad sp create-for-rbac -n AuthFile --sdk-auth
 Save this output into a file somewhere. To instruct the tool to use it, simply
 provide the path to the file in the environment variable `AZURE_AUTH_LOCATION`.
 
+[travis-badge]: https://travis-ci.com/elyscape/az-dns.svg?branch=master
+[travis]: https://travis-ci.com/elyscape/az-dns
 [Azure DNS]: https://azure.microsoft.com/en-us/services/dns/
 [service principal]: https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-application-objects
 [releases]: https://github.com/elyscape/az-dns/releases/latest
