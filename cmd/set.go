@@ -115,7 +115,10 @@ func init() {
 
 	setCmd.PersistentFlags().BoolP("relative", "r", false, "HOSTNAME is a zone-relative label")
 	setCmd.PersistentFlags().Int64P("ttl", "t", 300, "Record set TTL")
-	viper.BindPFlags(setCmd.PersistentFlags())
+	if err := viper.BindPFlags(setCmd.PersistentFlags()); err != nil {
+		// This shouldn't happen
+		panic(err)
+	}
 }
 
 func generateARecordParams(ttl int64, values []string) (rrparams *dns.RecordSet, err error) {

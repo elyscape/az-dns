@@ -76,5 +76,8 @@ func init() {
 	rootCmd.AddCommand(clearCmd)
 
 	clearCmd.PersistentFlags().BoolP("relative", "r", false, "HOSTNAME is a zone-relative label")
-	viper.BindPFlags(clearCmd.PersistentFlags())
+	if err := viper.BindPFlags(clearCmd.PersistentFlags()); err != nil {
+		// This shouldn't happen
+		panic(err)
+	}
 }

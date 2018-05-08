@@ -54,7 +54,10 @@ func init() {
 
 	// other
 	rootCmd.PersistentFlags().BoolP("verbose", "v", false, "Enable verbose output")
-	viper.BindPFlags(rootCmd.PersistentFlags())
+	if err := viper.BindPFlags(rootCmd.PersistentFlags()); err != nil {
+		// This shouldn't happen
+		panic(err)
+	}
 }
 
 // initConfig reads in config file and ENV variables if set.
