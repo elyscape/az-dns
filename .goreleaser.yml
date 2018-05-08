@@ -10,7 +10,7 @@ builds:
   - arm
   - arm64
   - mips
-  - mips64
+  - mipsle
   ignore:
   - goos: darwin
     goarch: arm
