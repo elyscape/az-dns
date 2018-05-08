@@ -19,8 +19,7 @@ var (
 		Args:  cobra.NoArgs,
 		Run: func(cmd *cobra.Command, args []string) {
 			fmt.Println("az-dns version", version)
-			fmt.Println("  built at", date)
-			fmt.Println("  from commit", commit)
+			fmt.Printf("  built at %v from commit %v\n", date, commit)
 		},
 	}
 )
