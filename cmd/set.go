@@ -43,26 +43,24 @@ Examples:
             0 issue "letsencrypt.org"
             0 issuewild ";"`,
 	Args: cobra.MinimumNArgs(3),
-	RunE: func(cmd *cobra.Command, args []string) (err error) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		recordType := dns.RecordType(strings.ToUpper(args[0]))
 		hostname := args[1]
 		records := args[2:]
 
 		client, err := helpers.NewRecordSetClient(dns.DefaultBaseURI)
 		if err != nil {
-			return
+			return err
 		}
 
 		resourceGroup := viper.GetString("resource-group")
 		if resourceGroup == "" {
-			err = fmt.Errorf("a resource group name is required")
-			return
+			return fmt.Errorf("a resource group name is required")
 		}
 
 		zone := viper.GetString("zone")
 		if zone == "" {
-			err = fmt.Errorf("a DNS zone name is required")
-			return
+			return fmt.Errorf("a DNS zone name is required")
 		}
 
 		relative := viper.GetBool("relative")
@@ -74,26 +72,25 @@ Examples:
 		case dns.A:
 			rrparams, err = generateARecordParams(ttl, records)
 			if err != nil {
-				return
+				return err
 			}
 		case dns.AAAA:
 			rrparams, err = generateAaaaRecordParams(ttl, records)
 			if err != nil {
-				return
+				return err
 			}
 		case dns.CAA:
 			rrparams, err = generateCaaRecordParams(ttl, records)
 			if err != nil {
-				return
+				return err
 			}
 		case dns.TXT:
 			rrparams, err = generateTxtRecordParams(ttl, records)
 			if err != nil {
-				return
+				return err
 			}
 		default:
-			err = fmt.Errorf("unsupported record type %v", recordType)
-			return
+			return fmt.Errorf("unsupported record type %v", recordType)
 		}
 
 		ctx, cancel := context.WithCancel(context.Background())
@@ -101,12 +98,12 @@ Examples:
 
 		_, err = client.CreateOrUpdate(ctx, resourceGroup, zone, recordName, recordType, *rrparams, "", "")
 		if err != nil {
-			return
+			return err
 		}
 
 		fmt.Println("success")
 
-		return
+		return nil
 	},
 }
 
@@ -121,49 +118,47 @@ func init() {
 	}
 }
 
-func generateARecordParams(ttl int64, values []string) (rrparams *dns.RecordSet, err error) {
+func generateARecordParams(ttl int64, values []string) (*dns.RecordSet, error) {
 	records := []dns.ARecord{}
 
 	for _, addr := range values {
 		if ip := net.ParseIP(addr); ip == nil || ip.To4() == nil {
-			err = fmt.Errorf(`invalid IP address "%v"`, addr)
-			return
+			return nil, fmt.Errorf(`invalid IP address "%v"`, addr)
 		}
 		records = append(records, dns.ARecord{Ipv4Address: &addr})
 	}
 
-	rrparams = &dns.RecordSet{
+	rrparams := &dns.RecordSet{
 		RecordSetProperties: &dns.RecordSetProperties{
 			TTL:      &ttl,
 			ARecords: &records,
 		},
 	}
 
-	return
+	return rrparams, nil
 }
 
-func generateAaaaRecordParams(ttl int64, values []string) (rrparams *dns.RecordSet, err error) {
+func generateAaaaRecordParams(ttl int64, values []string) (*dns.RecordSet, error) {
 	records := []dns.AaaaRecord{}
 
 	for _, addr := range values {
 		if ip := net.ParseIP(addr); ip == nil || ip.To16() == nil {
-			err = fmt.Errorf(`invalid IP address "%v"`, addr)
-			return
+			return nil, fmt.Errorf(`invalid IP address "%v"`, addr)
 		}
 		records = append(records, dns.AaaaRecord{Ipv6Address: &addr})
 	}
 
-	rrparams = &dns.RecordSet{
+	rrparams := &dns.RecordSet{
 		RecordSetProperties: &dns.RecordSetProperties{
 			TTL:         &ttl,
 			AaaaRecords: &records,
 		},
 	}
 
-	return
+	return rrparams, nil
 }
 
-func generateCaaRecordParams(ttl int64, values []string) (rrparams *dns.RecordSet, err error) {
+func generateCaaRecordParams(ttl int64, values []string) (*dns.RecordSet, error) {
 	records := []dns.CaaRecord{}
 
 	const recordSize = 3
@@ -171,17 +166,15 @@ func generateCaaRecordParams(ttl int64, values []string) (rrparams *dns.RecordSe
 	for min := 0; min < len(values); min += recordSize {
 		max := min + recordSize
 		if max > len(values) {
-			err = fmt.Errorf(`incomplete CAA record %v`, values[min:])
-			return
+			return nil, fmt.Errorf(`incomplete CAA record %v`, values[min:])
 		}
 
 		fields := values[min:max]
 
 		var flags int32
-		flags, err = cast.ToInt32E(fields[0])
+		flags, err := cast.ToInt32E(fields[0])
 		if err != nil || flags > 255 || flags < 0 {
-			err = fmt.Errorf(`invalid CAA flags "%v" must be an integer between 0 and 255`, fields[0])
-			return
+			return nil, fmt.Errorf(`invalid CAA flags "%v" must be an integer between 0 and 255`, fields[0])
 		}
 
 		tag := fields[1]
@@ -194,17 +187,17 @@ func generateCaaRecordParams(ttl int64, values []string) (rrparams *dns.RecordSe
 		})
 	}
 
-	rrparams = &dns.RecordSet{
+	rrparams := &dns.RecordSet{
 		RecordSetProperties: &dns.RecordSetProperties{
 			TTL:        &ttl,
 			CaaRecords: &records,
 		},
 	}
 
-	return
+	return rrparams, nil
 }
 
-func generateTxtRecordParams(ttl int64, values []string) (rrparams *dns.RecordSet, err error) {
+func generateTxtRecordParams(ttl int64, values []string) (*dns.RecordSet, error) {
 	records := []dns.TxtRecord{}
 
 	for _, value := range values {
@@ -212,12 +205,12 @@ func generateTxtRecordParams(ttl int64, values []string) (rrparams *dns.RecordSe
 		records = append(records, dns.TxtRecord{Value: &valueArr})
 	}
 
-	rrparams = &dns.RecordSet{
+	rrparams := &dns.RecordSet{
 		RecordSetProperties: &dns.RecordSetProperties{
 			TTL:        &ttl,
 			TxtRecords: &records,
 		},
 	}
 
-	return
+	return rrparams, nil
 }

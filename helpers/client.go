@@ -15,49 +15,46 @@ import (
 // baseURI and attaches a BearerAuthorizer based on credentials provided either
 // via an Azure SDK auth file, if present, or through any mechanism supported
 // by Viper. If credentials have not been provided, an error will be returned.
-func NewRecordSetClient(baseURI string) (client dns.RecordSetsClient, err error) {
+func NewRecordSetClient(baseURI string) (*dns.RecordSetsClient, error) {
 	var authorizer *autorest.BearerAuthorizer
 	subscriptionID := viper.GetString("subscription-id")
 
-	clientSetup, err := authfile.GetClientSetup(baseURI)
-	if err == nil {
+	if clientSetup, err := authfile.GetClientSetup(baseURI); err == nil {
 		authorizer = clientSetup.BearerAuthorizer
 		subscriptionID = clientSetup.SubscriptionID
 	} else {
 		authorizer, err = GetAuthorizer(baseURI)
 		if err != nil {
-			return
+			return nil, err
 		}
 	}
 
-	client = dns.NewRecordSetsClientWithBaseURI(baseURI, subscriptionID)
+	client := dns.NewRecordSetsClientWithBaseURI(baseURI, subscriptionID)
 	client.Authorizer = authorizer
 
-	return
+	return &client, nil
 }
 
 // GetAuthorizer creates a BearerAuthorizer based on credentials retrieved from
 // Viper. If credentials have not been provided, an error will be returned.
-func GetAuthorizer(baseURI string) (authorizer *autorest.BearerAuthorizer, err error) {
+func GetAuthorizer(baseURI string) (*autorest.BearerAuthorizer, error) {
 	credFields := []string{"client-id", "client-secret", "subscription-id", "tenant-id"}
 
 	for _, field := range credFields {
 		if !viper.IsSet(field) || viper.GetString(field) == "" {
-			err = fmt.Errorf("required credential option %v not provided", field)
-			return
+			return nil, fmt.Errorf("required credential option %v not provided", field)
 		}
 	}
 
 	config, err := adal.NewOAuthConfig(azure.PublicCloud.ActiveDirectoryEndpoint, viper.GetString("tenant-id"))
 	if err != nil {
-		return
+		return nil, err
 	}
 
 	token, err := adal.NewServicePrincipalToken(*config, viper.GetString("client-id"), viper.GetString("client-secret"), baseURI)
 	if err != nil {
-		return
+		return nil, err
 	}
 
-	authorizer = autorest.NewBearerAuthorizer(token)
-	return
+	return autorest.NewBearerAuthorizer(token), nil
 }

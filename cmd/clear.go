@@ -31,25 +31,23 @@ Examples:
     az-dns clear NS sub.example.com.example.com -r -z example.com
         Removes the NS record for sub.example.com.example.com`,
 	Args: cobra.ExactArgs(2),
-	RunE: func(cmd *cobra.Command, args []string) (err error) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		recordType := dns.RecordType(strings.ToUpper(args[0]))
 		hostname := args[1]
 
 		client, err := helpers.NewRecordSetClient(dns.DefaultBaseURI)
 		if err != nil {
-			return
+			return err
 		}
 
 		resourceGroup := viper.GetString("resource-group")
 		if resourceGroup == "" {
-			err = fmt.Errorf("a resource group name is required")
-			return
+			return fmt.Errorf("a resource group name is required")
 		}
 
 		zone := viper.GetString("zone")
 		if zone == "" {
-			err = fmt.Errorf("a DNS zone name is required")
-			return
+			return fmt.Errorf("a DNS zone name is required")
 		}
 
 		cmd.SilenceUsage = true
@@ -61,14 +59,13 @@ Examples:
 		defer cancel()
 
 		_, err = client.Delete(ctx, resourceGroup, zone, recordName, recordType, "")
-
 		if err != nil {
-			return
+			return err
 		}
 
 		fmt.Println("success")
 
-		return
+		return nil
 	},
 }
 
