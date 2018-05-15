@@ -3,6 +3,8 @@ package helpers
 import (
 	"fmt"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 type recordNameTestCase struct {
@@ -50,7 +52,5 @@ func TestGenerateRecordName(t *testing.T) {
 
 func testGenerateRecordName(t *testing.T, testCase recordNameTestCase) {
 	result := GenerateRecordName(testCase.hostname, testCase.zone, testCase.relative)
-	if result != testCase.expectedRecord {
-		t.Errorf(`got "%v", expected "%v"`, result, testCase.expectedRecord)
-	}
+	assert.Equal(t, testCase.expectedRecord, result)
 }

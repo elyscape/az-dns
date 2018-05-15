@@ -3,15 +3,31 @@
 
 [[projects]]
   name = "github.com/Azure/azure-sdk-for-go"
-  packages = ["profiles/latest/dns/mgmt/dns","services/dns/mgmt/2017-09-01/dns"]
+  packages = [
+    "profiles/latest/dns/mgmt/dns",
+    "services/dns/mgmt/2017-09-01/dns"
+  ]
   revision = "934e2462aeb6e0c14186dcfeedd73a026d1b8eeb"
   version = "v12.1.0-beta"
 
 [[projects]]
   name = "github.com/Azure/go-autorest"
-  packages = ["autorest","autorest/adal","autorest/azure","autorest/azure/auth","autorest/date","autorest/to"]
+  packages = [
+    "autorest",
+    "autorest/adal",
+    "autorest/azure",
+    "autorest/azure/auth",
+    "autorest/date",
+    "autorest/to"
+  ]
   revision = "809ed2ef5c4c9a60c3c2f3aa9cc11f3a7c2ce59d"
   version = "v9.6.0"
+
+[[projects]]
+  name = "github.com/davecgh/go-spew"
+  packages = ["spew"]
+  revision = "346938d642f2ec3594ed81d874461961cd0faa76"
+  version = "v1.1.0"
 
 [[projects]]
   name = "github.com/dgrijalva/jwt-go"
@@ -34,7 +50,17 @@
 [[projects]]
   branch = "master"
   name = "github.com/hashicorp/hcl"
-  packages = [".","hcl/ast","hcl/parser","hcl/scanner","hcl/strconv","hcl/token","json/parser","json/scanner","json/token"]
+  packages = [
+    ".",
+    "hcl/ast",
+    "hcl/parser",
+    "hcl/scanner",
+    "hcl/strconv",
+    "hcl/token",
+    "json/parser",
+    "json/scanner",
+    "json/token"
+  ]
   revision = "23c074d0eceb2b8a5bfdbb271ab780cde70f05a8"
 
 [[projects]]
@@ -68,8 +94,17 @@
   version = "v1.0.1"
 
 [[projects]]
+  name = "github.com/pmezard/go-difflib"
+  packages = ["difflib"]
+  revision = "792786c7400a136282c1664665ae0a8db921c6c2"
+  version = "v1.0.0"
+
+[[projects]]
   name = "github.com/spf13/afero"
-  packages = [".","mem"]
+  packages = [
+    ".",
+    "mem"
+  ]
   revision = "ec3a3111d1e1bdff38a61e09d5a5f5e974905611"
   version = "v1.0.1"
 
@@ -104,6 +139,12 @@
   version = "v1.0.0"
 
 [[projects]]
+  name = "github.com/stretchr/testify"
+  packages = ["assert"]
+  revision = "12b6f73e6084dad08a7c6e575284b177ecafbc71"
+  version = "v1.2.1"
+
+[[projects]]
   branch = "master"
   name = "golang.org/x/sys"
   packages = ["unix"]
@@ -112,7 +153,14 @@
 [[projects]]
   branch = "master"
   name = "golang.org/x/text"
-  packages = ["internal/gen","internal/triegen","internal/ucd","transform","unicode/cldr","unicode/norm"]
+  packages = [
+    "internal/gen",
+    "internal/triegen",
+    "internal/ucd",
+    "transform",
+    "unicode/cldr",
+    "unicode/norm"
+  ]
   revision = "e19ae1496984b1c655b8044a65c0300a3c878dd3"
 
 [[projects]]
@@ -124,6 +172,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "b43ec8c5d14ddda90248397a5fd9f1eaec0a116e0530e86de2b5364429f3ea3c"
+  inputs-digest = "ed561129a371df171e5ec0372b82d06b919b962a3c55c64ca94f59f8e2b6d867"
   solver-name = "gps-cdcl"
   solver-version = 1
