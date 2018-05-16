@@ -27,7 +27,7 @@ builds:
     - all=-s -w
       -X github.com/elyscape/az-dns/cmd.version={{.Version}}
       -X github.com/elyscape/az-dns/cmd.commit={{.Commit}}
-      -X github.com/elyscape/az-dns/cmd.date={{.Date}}
+      -X github.com/elyscape/az-dns/cmd.date={{or .Env.TIMESTAMP .Date}}
   env:
     - GOROOT_FINAL=/usr/local/go
 archive:
