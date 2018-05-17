@@ -1,30 +1,39 @@
-OS = $(shell uname -s)
-
-GO = go
-GOPATH ?= $(shell $(GO) env GOPATH)
+GO := go
+ifeq ($origin GOPATH), undefined)
+	GOPATH := $(shell $(GO) env GOPATH)
+endif
 
 TARGET_DIR = .targets
-TARGET_FILES = deps deps-vendor
 
 SOURCE_FILES = ./...
-PACKAGE_NAME = github.com/elyscape/az-dns
+VENDOR_FILES = ./vendor/...
+PACKAGE_NAME := $(shell $(GO) list)
+PACKAGE_DIR := $(shell $(GO) list -f '{{.Dir}}')
 
 BIN_DIR = /usr/local/bin
 DEP = $(BIN_DIR)/dep
 GOMETALINTER = $(BIN_DIR)/gometalinter
 GORELEASER = $(BIN_DIR)/goreleaser
 
-COVER_FILE = $(TARGET_DIR)/coverage.out
+COVER_NAME = coverage.out
+COVER_FILE = $(TARGET_DIR)/$(COVER_NAME)
 COVER_FLAGS = -coverpkg=./... -coverprofile=$(COVER_FILE)
 TEST_FLAGS = -v -race
 TEST_PATTERN = ''
 
-TIMESTAMP ?= $(shell date -u +%FT%TZ)
+TARGET_FILES = $(addprefix $(TARGET_DIR)/,deps deps-vendor $(COVER_NAME))
 
-ifeq ($(OS), Darwin)
-ifeq ($(BIN_DIR), $(shell brew --prefix)/bin)
-USE_HOMEBREW = 1
+GO_FILES := $(subst $(PACKAGE_DIR)/,,$(shell $(GO) list -f '{{$$dir := .Dir}}{{range .GoFiles }}{{printf "%v/%v\n" $$dir .}}{{end}}' $(SOURCE_FILES)))
+VENDOR_GO_FILES := $(subst $(PACKAGE_DIR)/,,$(shell $(GO) list -f '{{$$dir := .Dir}}{{range .GoFiles }}{{printf "%v/%v\n" $$dir .}}{{end}}' $(VENDOR_FILES)))
+
+ifeq ($(origin TIMESTAMP), undefined)
+	TIMESTAMP := $(shell date -u +%FT%TZ)
 endif
+
+ifeq ($(shell uname -s), Darwin)
+	ifeq ($(BIN_DIR), $(shell brew --prefix)/bin)
+		USE_HOMEBREW = 1
+	endif
 endif
 
 $(DEP):
@@ -46,7 +55,7 @@ setup: $(DEP) $(GOMETALINTER) $(GORELEASER)
 $(TARGET_DIR):
 	@mkdir -p $(TARGET_DIR)
 
-$(addprefix $(TARGET_DIR)/,$(TARGET_FILES)): $(TARGET_DIR)
+$(TARGET_FILES): | $(TARGET_DIR)
 
 $(TARGET_DIR)/deps: $(DEP) Gopkg.toml Gopkg.lock
 	$(DEP) ensure
@@ -75,7 +84,7 @@ lint: $(GOMETALINTER)
 	$(GOMETALINTER) -t --vendor $(SOURCE_FILES)
 .PHONY: lint
 
-az-dns: $(TARGET_DIR)/deps-vendor
+az-dns: $(TARGET_DIR)/deps-vendor $(GO_FILES) $(VENDOR_GO_FILES)
 	$(GO) build
 
 build: az-dns
@@ -90,7 +99,8 @@ release: test $(GORELEASER)
 .PHONY: release
 
 clean:
-	-rm -rvf az-dns dist $(TARGET_DIR)
+	@go clean -r
+	@rm -rf dist $(TARGET_DIR)
 .PHONY: clean
 
 all: test lint build
