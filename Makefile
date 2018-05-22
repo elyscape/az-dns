@@ -2,6 +2,7 @@ GO := go
 ifeq ($origin GOPATH), undefined)
 	GOPATH := $(shell $(GO) env GOPATH)
 endif
+export GOPATH
 
 TARGET_DIR = .targets
 
@@ -29,6 +30,7 @@ VENDOR_GO_FILES := $(subst $(PACKAGE_DIR)/,,$(shell $(GO) list -f '{{$$dir := .D
 ifeq ($(origin TIMESTAMP), undefined)
 	TIMESTAMP := $(shell date -u +%FT%TZ)
 endif
+export TIMESTAMP
 
 ifeq ($(shell uname -s), Darwin)
 	ifeq ($(BIN_DIR), $(shell brew --prefix)/bin)
