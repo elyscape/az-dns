@@ -56,7 +56,7 @@ $(GOMETALINTER):
 $(GORELEASER):
 	curl -fsSL https://install.goreleaser.com/github.com/goreleaser/goreleaser.sh | sh -s -- -b $(BIN_DIR)
 
-setup: $(DEP) $(GOMETALINTER) $(GORELEASER)
+setup: | $(DEP) $(GOMETALINTER) $(GORELEASER)
 .PHONY: setup
 
 $(TARGET_DIR):
@@ -64,18 +64,18 @@ $(TARGET_DIR):
 
 $(TARGET_FILES): | $(TARGET_DIR)
 
-$(TARGET_DIR)/deps: $(DEP) Gopkg.toml Gopkg.lock
+$(TARGET_DIR)/deps: Gopkg.toml Gopkg.lock | $(DEP)
 	$(DEP) ensure
 	@touch $@
 
-$(TARGET_DIR)/deps-vendor: $(DEP) Gopkg.lock
+$(TARGET_DIR)/deps-vendor: Gopkg.lock | $(DEP)
 	$(DEP) ensure -vendor-only
 	@touch $@
 
-deps: $(TARGET_DIR)/deps
+deps: | $(TARGET_DIR)/deps
 .PHONY: deps
 
-deps-vendor: $(TARGET_DIR)/deps-vendor
+deps-vendor: | $(TARGET_DIR)/deps-vendor
 .PHONY: deps-vendor
 
 test: deps-vendor
@@ -87,7 +87,7 @@ open-cover: $(COVER_FILE)
 	$(GO) tool cover -html=$(COVER_FILE) -o $(TARGET_DIR)/cover.html
 .PHONY: open-cover
 
-lint: $(GOMETALINTER)
+lint: | $(GOMETALINTER)
 	$(GOMETALINTER) -t --vendor $(SOURCE_FILES)
 .PHONY: lint
 
@@ -97,11 +97,11 @@ az-dns: $(TARGET_DIR)/deps-vendor $(GO_FILES) $(VENDOR_GO_FILES)
 build: az-dns
 .PHONY: build
 
-snapshot: $(GORELEASER)
+snapshot: | $(GORELEASER)
 	$(GORELEASER) --snapshot --rm-dist
 .PHONY: snapshot
 
-release: test $(GORELEASER)
+release: test | $(GORELEASER)
 	$(GORELEASER) --release-notes=<(./generate-changelog.rb)
 .PHONY: release
 
