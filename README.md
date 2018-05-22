@@ -2,6 +2,7 @@
 A simple command-line tool for manipulating [Azure DNS] record sets
 
 [![Build Status][travis-badge]][travis]
+[![codecov][codecov-badge]][codecov]
 
 This is a simple tool for managing Azure DNS resource record sets, written with
 a primary focus on easy scriptability for use with things like Let's Encrypt DNS
@@ -124,6 +125,9 @@ provide the path to the file in the environment variable `AZURE_AUTH_LOCATION`.
 
 [travis-badge]: https://travis-ci.com/elyscape/az-dns.svg?branch=master
 [travis]: https://travis-ci.com/elyscape/az-dns
+[codecov-badge]: https://codecov.io/gh/elyscape/az-dns/branch/master/graph/badge.svg
+[codecov]: https://codecov.io/gh/elyscape/az-dns
+
 [Azure DNS]: https://azure.microsoft.com/en-us/services/dns/
 [service principal]: https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-application-objects
 [releases]: https://github.com/elyscape/az-dns/releases/latest
