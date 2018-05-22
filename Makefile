@@ -11,7 +11,12 @@ VENDOR_FILES = ./vendor/...
 PACKAGE_NAME := $(shell $(GO) list)
 PACKAGE_DIR := $(shell $(GO) list -f '{{.Dir}}')
 
-BIN_DIR = /usr/local/bin
+ifdef USE_GOPATH
+	BIN_DIR = $(GOPATH)/bin
+else
+	BIN_DIR ?= /usr/local/bin
+endif
+
 DEP = $(BIN_DIR)/dep
 GOMETALINTER = $(BIN_DIR)/gometalinter
 GORELEASER = $(BIN_DIR)/goreleaser

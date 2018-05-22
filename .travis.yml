@@ -5,6 +5,8 @@ go:
 matrix:
   allow_failures:
     - go: master
+env:
+  - USE_GOPATH=1
 install:
   - make setup
 script:
