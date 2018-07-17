@@ -8,8 +8,8 @@ TARGET_DIR = .targets
 
 SOURCE_FILES = ./...
 VENDOR_FILES = ./vendor/...
-PACKAGE_NAME := $(shell $(GO) list)
-PACKAGE_DIR := $(shell $(GO) list -f '{{.Dir}}')
+PACKAGE_NAME := $(sort $(shell $(GO) list))
+PACKAGE_DIR := $(sort $(shell $(GO) list -f '{{.Dir}}'))
 
 ifdef USE_GOPATH
 	BIN_DIR = $(GOPATH)/bin
@@ -29,8 +29,8 @@ TEST_PATTERN = ''
 
 TARGET_FILES = $(addprefix $(TARGET_DIR)/,deps deps-vendor $(COVER_NAME))
 
-GO_FILES := $(subst $(PACKAGE_DIR)/,,$(shell $(GO) list -f '{{$$dir := .Dir}}{{range .GoFiles }}{{printf "%v/%v\n" $$dir .}}{{end}}' $(SOURCE_FILES)))
-VENDOR_GO_FILES := $(subst $(PACKAGE_DIR)/,,$(shell $(GO) list -f '{{$$dir := .Dir}}{{range .GoFiles }}{{printf "%v/%v\n" $$dir .}}{{end}}' $(VENDOR_FILES)))
+GO_FILES := $(sort $(subst $(PACKAGE_DIR)/,,$(shell $(GO) list -f '{{$$dir := .Dir}}{{range .GoFiles }}{{printf "%v/%v\n" $$dir .}}{{end}}' $(SOURCE_FILES))))
+VENDOR_GO_FILES := $(sort $(subst $(PACKAGE_DIR)/,,$(shell $(GO) list -f '{{$$dir := .Dir}}{{range .GoFiles }}{{printf "%v/%v\n" $$dir .}}{{end}}' $(VENDOR_FILES))))
 
 ifeq ($(origin TIMESTAMP), undefined)
 	TIMESTAMP := $(shell date -u +%FT%TZ)
